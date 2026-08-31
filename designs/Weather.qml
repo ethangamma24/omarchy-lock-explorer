@@ -50,7 +50,8 @@ DesignBase {
       try {
         var d = JSON.parse(text())
         var lat = parseFloat(d.latitude), lon = parseFloat(d.longitude)
-        if (!isNaN(lat) && !isNaN(lon)) lock.locationQuery = lat + "," + lon
+        if (!isNaN(lat) && !isNaN(lon) && String(d.latitude).match(/^-?\d+(\.\d+)?$/) && String(d.longitude).match(/^-?\d+(\.\d+)?$/))
+          lock.locationQuery = String(d.latitude) + "," + String(d.longitude)
         else if (d.name) lock.locationQuery = encodeURIComponent(d.name)
       } catch (e) {}
       lock.refresh()

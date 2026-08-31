@@ -144,14 +144,16 @@ logo.sprite = Sprite(logo.scaled);
 logo.sprite.SetPosition(screen.w / 2 - logo.scaled.GetWidth() / 2, screen.h * $logo_y / 100 - logo.scaled.GetHeight() / 2, 5);
 EOF
 
+esc_ply() { printf '%s' "$1" | sed 's/["\\]/\\&/g'; }
+
 [[ -n $title ]] && cat <<EOF
-title.image = Image.Text("$title", $title_f, 1, "$family $title_size");
+title.image = Image.Text("$(esc_ply "$title")", $title_f, 1, "$family $title_size");
 title.sprite = Sprite(title.image);
 title.sprite.SetPosition(screen.w / 2 - title.image.GetWidth() / 2, screen.h * $title_y / 100 - title.image.GetHeight() / 2, 5);
 EOF
 
 [[ -n $subtitle ]] && cat <<EOF
-subtitle.image = Image.Text("$subtitle", $subtitle_f, 1, "$family $subtitle_size");
+subtitle.image = Image.Text("$(esc_ply "$subtitle")", $subtitle_f, 1, "$family $subtitle_size");
 subtitle.sprite = Sprite(subtitle.image);
 subtitle.sprite.SetPosition(screen.w / 2 - subtitle.image.GetWidth() / 2, screen.h * $subtitle_y / 100 - subtitle.image.GetHeight() / 2, 5);
 EOF
@@ -252,7 +254,7 @@ EOF
 fi
 
 [[ -n $hint ]] && cat <<EOF
-hint.image = Image.Text("$hint", dim.r, dim.g, dim.b, 1, "$family 12");
+hint.image = Image.Text("$(esc_ply "$hint")", dim.r, dim.g, dim.b, 1, "$family 12");
 hint.sprite = Sprite(hint.image);
 hint.sprite.SetPosition(screen.w - hint.image.GetWidth() - 60, screen.h - hint.image.GetHeight() - 50, 5);
 EOF
