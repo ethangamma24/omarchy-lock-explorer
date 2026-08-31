@@ -1248,7 +1248,7 @@ echo "$out"
 
   Process {
     id: bootRotateStampProc
-    command: ["bash", "-c", "bid=$(cat /proc/sys/kernel/random/boot_id); f=\"$HOME/.local/state/omarchy/lock-explorer-boot-rotated\"; [ \"$(cat \"$f\" 2>/dev/null)\" = \"$bid\" ] && echo skip || { echo \"$bid\" > \"$f\"; echo go; }"]
+    command: ["bash", "-c", "bid=$(cat /proc/sys/kernel/random/boot_id); f=\"$HOME/.local/state/omarchy/lock-explorer-boot-rotated\"; { flock -n 9; [ \"$(cat \"$f\" 2>/dev/null)\" = \"$bid\" ] && echo skip || { echo \"$bid\" > \"$f\"; echo go; }; } 9>\"$f.lock\""]
     stdout: StdioCollector {
       id: bootRotateStampOut
       waitForEnd: true
